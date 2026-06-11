@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SlojPodataka.KlasePodataka;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,28 @@ using System.Threading.Tasks;
 
 namespace SlojPodataka.TehnoloskeKlase
 {
-    internal class TurnirDbContext
+    public class TurnirDbContext : DbContext
     {
+        public TurnirDbContext(DbContextOptions<TurnirDbContext> opcije) : base(opcije) { }
+
+        public DbSet<Korisnik> Korisnici { get; set; }
+        public DbSet<Igrac> Igraci { get; set; }
+        public DbSet<Turnir> Turniri { get; set; }
+        public DbSet<PlasmanIgraca> PlasmaniIgraca { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PlasmanIgraca>()    
+                .HasOne(p => p.Turnir)
+                .WithMany(t => t.Plasmani)
+                .HasForeignKey(p => p.TurnirID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PlasmanIgraca>()
+                .HasOne(p => p.Igrac)
+                .WithMany(i => i.Plasmani)
+                .HasForeignKey(p => p.IgracID)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }
