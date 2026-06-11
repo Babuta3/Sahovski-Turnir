@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SlojPoslovneLogike
+﻿namespace SlojPoslovneLogike
 {
     public class Class1
     {
+
     }
 }
