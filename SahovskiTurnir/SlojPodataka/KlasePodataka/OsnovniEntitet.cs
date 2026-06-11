@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SlojPodataka.KlasePodataka
 {
-    internal class OsnovniEntitet
+    public abstract class OsnovniEntitet
     {
+        public DateTime DatumKreiranja { get; set; } = DateTime.Now;
     }
 }
