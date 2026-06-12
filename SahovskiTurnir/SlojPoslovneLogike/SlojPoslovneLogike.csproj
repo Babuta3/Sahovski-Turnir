@@ -10,9 +10,4 @@
     <ProjectReference Include="..\SlojPodataka\SlojPodataka.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validacija\" />
-    <Folder Include="Stanje\" />
-  </ItemGroup>
-
 </Project>
