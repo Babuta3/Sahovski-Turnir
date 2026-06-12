@@ -15,5 +15,6 @@
         public int BrojUcesnika { get; set; }
         public string VremenskaKontrola { get; set; } = string.Empty;
         public string TiebreakKriterijum { get; set; } = string.Empty;
+        public List<PlasmanIgracaDTO> Plasmani { get; set; } = new List<PlasmanIgracaDTO>();
     }
 }
