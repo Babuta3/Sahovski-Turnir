@@ -1,0 +1,73 @@
+﻿@model PrezentacioniSloj.PrezentacionaLogika.ViewModels.TurnirViewModel
+
+@{
+    ViewData["Title"] = "Turniri";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Evidencija turnira</h2>
+    <a asp-action="Unos" class="btn btn-dark">+ Novi turnir</a>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-secondary text-white">Filter</div>
+    <div class="card-body">
+        <form asp-action="Spisak" method="get">
+            <div class="row">
+                <div class="col-md-3">
+                    <label asp-for="DatumOd" class="form-label"></label>
+                    <input asp-for="DatumOd" type="date" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="DatumDo" class="form-label"></label>
+                    <input asp-for="DatumDo" type="date" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="FilterMesto" class="form-label">Mesto</label>
+                    <input asp-for="FilterMesto" class="form-control" placeholder="Pretraži po mestu..." />
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-secondary w-100">Pretraži</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Naziv turnira</th>
+            <th>Mesto</th>
+            <th>Datum</th>
+            <th>Organizator</th>
+            <th>Nagradni fond</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var turnir in ViewBag.Turniri as List<SlojServisa.DTO.TurnirDTO> ?? new List<SlojServisa.DTO.TurnirDTO>())
+        {
+            <tr>
+                <td>@turnir.NazivTurnira</td>
+                <td>@turnir.Mesto</td>
+                <td>@turnir.Datum.ToString("dd.MM.yyyy")</td>
+                <td>@turnir.Organizator</td>
+                <td>@turnir.NagradniFond.ToString("N2") RSD</td>
+                <td>
+                    <a asp-action="Detalji" asp-route-id="@turnir.TurnirID" class="btn btn-sm btn-info">Detalji</a>
+                    <a asp-action="Izmena" asp-route-id="@turnir.TurnirID" class="btn btn-sm btn-warning">Izmeni</a>
+                    <a asp-action="Stampa" asp-route-id="@turnir.TurnirID" class="btn btn-sm btn-secondary">Štampa</a>
+                    <form asp-action="Obrisi" asp-route-id="@turnir.TurnirID" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Da li ste sigurni?')">
+                            Obriši
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Stampa" class="btn btn-outline-secondary">Štampaj sve</a>
