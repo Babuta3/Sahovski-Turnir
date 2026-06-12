@@ -1,27 +1,34 @@
+using SlojPoslovneLogike.Ogranicenja;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
+
+builder.Services.AddHttpClient("SahovskiApi", klijent =>
+{
+    klijent.BaseAddress = new Uri("http://localhost:5072");
+});
+
+builder.Services.AddHttpClient<CitacPravila>(klijent =>
+{
+    klijent.BaseAddress = new Uri("http://localhost:5072");
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Nalog}/{action=Prijava}/{id?}");
 
 app.Run();
