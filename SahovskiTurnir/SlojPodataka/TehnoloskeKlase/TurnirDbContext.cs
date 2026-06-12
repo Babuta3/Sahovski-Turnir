@@ -30,6 +30,18 @@ namespace SlojPodataka.TehnoloskeKlase
                 .WithMany(i => i.Plasmani)
                 .HasForeignKey(p => p.IgracID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Turnir>()
+                .Property(t => t.NagradniFond)
+                .HasColumnType("decimal(10,2)");
+
+            modelBuilder.Entity<PlasmanIgraca>()
+                .Property(p => p.Bodovi)
+                .HasColumnType("decimal(4,1)");
+
+            modelBuilder.Entity<PlasmanIgraca>()
+                .Property(p => p.Nagrada)
+                .HasColumnType("decimal(10,2)");
         }
     }
 }
