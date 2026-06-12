@@ -6,4 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SlojPodataka\SlojPodataka.csproj" />
+    <ProjectReference Include="..\SlojServisa\SlojServisa.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="PrezentacionaLogika\Controllers\" />
+    <Folder Include="PrezentacionaLogika\ViewModels\" />
+  </ItemGroup>
+
 </Project>
