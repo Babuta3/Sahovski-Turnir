@@ -1,9 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using SlojPodataka.TehnoloskeKlase;
+using SlojPoslovneLogike.Ogranicenja;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpClient<CitacPravila>(klijent =>
+{
+    klijent.BaseAddress = new Uri("http://localhost:5072");
+});
 
 var nizKonekcije = builder.Configuration.GetConnectionString("Konekcija");
 Konekcija.NizKonekcije = nizKonekcije!;
