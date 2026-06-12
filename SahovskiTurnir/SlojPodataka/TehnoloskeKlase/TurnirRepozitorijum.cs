@@ -137,5 +137,14 @@ namespace SlojPodataka.TehnoloskeKlase
 
             return upit.ToList();
         }
+        public int DohvatiUkupanBrojTurniraPrekoSP()
+        {
+            using var konekcija = new Microsoft.Data.SqlClient.SqlConnection(Konekcija.NizKonekcije);
+            var komanda = new Microsoft.Data.SqlClient.SqlCommand("sp_DajUkupanBrojTurnira", konekcija);
+            komanda.CommandType = System.Data.CommandType.StoredProcedure;
+            konekcija.Open();
+            var rezultat = komanda.ExecuteScalar();
+            return (int)rezultat!;
+        }
     }
 }

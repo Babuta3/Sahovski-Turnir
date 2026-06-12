@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SlojPodataka\SlojPodataka.csproj" />
+    <ProjectReference Include="..\SlojPoslovneLogike\SlojPoslovneLogike.csproj" />
   </ItemGroup>
 
   <ItemGroup>

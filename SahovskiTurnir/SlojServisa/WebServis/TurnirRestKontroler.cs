@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SlojPodataka.TehnoloskeKlase;
+using SlojPoslovneLogike.Ogranicenja;
+using SlojPoslovneLogike.Stanje;
+using SlojPoslovneLogike.Validacija;
 using SlojServisa.DTO;
 using SlojServisa.KlaseMapiranja;
 
@@ -11,11 +14,15 @@ namespace SlojServisa.WebServis
     {
         private readonly TurnirRepozitorijum _repozitorijum;
         private readonly TurnirMapper _maper;
+        private readonly PoslovnoPraviloValidator _validator;
+        private readonly PrikupljanjeStanja _stanje;
 
-        public TurnirRestKontroler(TurnirRepozitorijum repozitorijum)
+        public TurnirRestKontroler(TurnirRepozitorijum repozitorijum, CitacPravila citacPravila)
         {
             _repozitorijum = repozitorijum;
             _maper = new TurnirMapper();
+            _validator = new PoslovnoPraviloValidator(citacPravila);
+            _stanje = new PrikupljanjeStanja(repozitorijum);
         }
 
         [HttpGet]
@@ -44,19 +51,30 @@ namespace SlojServisa.WebServis
             return Ok(_maper.UListuDTO(turniri));
         }
 
+        [HttpGet("statistika")]
+        public ActionResult<int> DohvatiStatistiku()
+        {
+            int ukupno = _repozitorijum.DohvatiUkupanBrojTurniraPrekoSP();
+            return Ok(ukupno);
+        }
+
         [HttpPost]
-        public ActionResult Dodaj([FromBody] TurnirDTO dto)
+        public async Task<ActionResult> Dodaj([FromBody] TurnirDTO dto)
         {
             var turnir = _maper.UEntitet(dto);
+            turnir.Plasmani = await _validator.IzracunajNagrade(
+                turnir.Plasmani.ToList(), dto.NagradniFond);
             _repozitorijum.Dodaj(turnir);
             return Ok("Turnir je uspešno dodat.");
         }
 
         [HttpPut("{id}")]
-        public ActionResult Izmeni(int id, [FromBody] TurnirDTO dto)
+        public async Task<ActionResult> Izmeni(int id, [FromBody] TurnirDTO dto)
         {
             dto.TurnirID = id;
             var turnir = _maper.UEntitet(dto);
+            turnir.Plasmani = await _validator.IzracunajNagrade(
+                turnir.Plasmani.ToList(), dto.NagradniFond);
             _repozitorijum.Izmeni(turnir);
             return Ok("Turnir je uspešno izmenjen.");
         }
