@@ -11,8 +11,4 @@
     <ProjectReference Include="..\SlojServisa\SlojServisa.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="PrezentacionaLogika\Controllers\" />
-  </ItemGroup>
-
 </Project>
