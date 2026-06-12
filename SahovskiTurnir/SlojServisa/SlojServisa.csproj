@@ -21,8 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="KlaseMapiranja\" />
-    <Folder Include="WebServis\" />
+    <None Update="Ogranicenja\pravila_nagrade.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
