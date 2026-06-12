@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="PrezentacionaLogika\Controllers\" />
-    <Folder Include="PrezentacionaLogika\ViewModels\" />
   </ItemGroup>
 
 </Project>
