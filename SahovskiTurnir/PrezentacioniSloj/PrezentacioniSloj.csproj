@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Nalog\" />
     <Folder Include="Views\Igrac\" />
     <Folder Include="Views\Turnir\" />
   </ItemGroup>
