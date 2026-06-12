@@ -64,5 +64,6 @@ namespace PrezentacioniSloj.PrezentacionaLogika.ViewModels
         public DateTime? DatumOd { get; set; }
         public DateTime? DatumDo { get; set; }
         public string? FilterMesto { get; set; }
+        public List<PlasmanIgracaViewModel> Plasmani { get; set; } = new List<PlasmanIgracaViewModel>();
     }
 }
