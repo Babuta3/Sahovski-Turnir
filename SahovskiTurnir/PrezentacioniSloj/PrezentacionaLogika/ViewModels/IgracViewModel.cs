@@ -16,10 +16,9 @@ namespace PrezentacioniSloj.PrezentacionaLogika.ViewModels
         [Display(Name = "Prezime")]
         public string Prezime { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Klub je obavezan.")]
         [StringLength(100)]
         [Display(Name = "Klub")]
-        public string Klub { get; set; } = string.Empty;
+        public string Klub { get; set; } = "Bez kluba";
 
         [Required(ErrorMessage = "Titula je obavezna.")]
         [Display(Name = "Titula")]

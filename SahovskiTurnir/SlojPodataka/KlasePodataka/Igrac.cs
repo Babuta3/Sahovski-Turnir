@@ -22,9 +22,8 @@ namespace SlojPodataka.KlasePodataka
         [StringLength(50)]
         public string Prezime { get; set; } = string.Empty;
 
-        [Required]
         [StringLength(100)]
-        public string Klub { get; set; } = string.Empty;
+        public string Klub { get; set; } = "Bez kluba";
 
         [Required]
         [StringLength(10)]

@@ -58,7 +58,7 @@ namespace SlojPodataka.Migrations
 
                     b.HasKey("IgracID");
 
-                    b.ToTable("Igrac");
+                    b.ToTable("Igrac", (string)null);
                 });
 
             modelBuilder.Entity("SlojPodataka.KlasePodataka.Korisnik", b =>
@@ -84,7 +84,7 @@ namespace SlojPodataka.Migrations
 
                     b.HasKey("KorisnikID");
 
-                    b.ToTable("Korisnik");
+                    b.ToTable("Korisnik", (string)null);
                 });
 
             modelBuilder.Entity("SlojPodataka.KlasePodataka.PlasmanIgraca", b =>
@@ -119,7 +119,7 @@ namespace SlojPodataka.Migrations
 
                     b.HasIndex("TurnirID");
 
-                    b.ToTable("PlasmanIgraca");
+                    b.ToTable("PlasmanIgraca", (string)null);
                 });
 
             modelBuilder.Entity("SlojPodataka.KlasePodataka.Turnir", b =>
@@ -187,7 +187,7 @@ namespace SlojPodataka.Migrations
 
                     b.HasKey("TurnirID");
 
-                    b.ToTable("Turnir");
+                    b.ToTable("Turnir", (string)null);
                 });
 
             modelBuilder.Entity("SlojPodataka.KlasePodataka.PlasmanIgraca", b =>
