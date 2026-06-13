@@ -30,8 +30,6 @@ namespace SlojPoslovneLogike.Validacija
             if (nagradjeni.Count == 0)
                 return plasmani;
 
-            // Proporcionalna raspodela po plasmanskom koeficijentu
-            // Koeficijent: 1. mesto dobija N delova, 2. mesto N-1, itd.
             int ukupnoDelova = nagradjeni.Count * (nagradjeni.Count + 1) / 2;
 
             foreach (var plasman in nagradjeni)
@@ -40,7 +38,6 @@ namespace SlojPoslovneLogike.Validacija
                 plasman.Nagrada = Math.Round(nagradniFond * koeficijent / ukupnoDelova, 2);
             }
 
-            // Nenagradjeni dobijaju 0
             foreach (var plasman in plasmani.Where(p => p.Mesto > brojNagradjenih))
             {
                 plasman.Nagrada = 0;

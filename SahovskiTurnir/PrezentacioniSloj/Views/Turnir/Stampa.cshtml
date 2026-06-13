@@ -5,6 +5,13 @@
     bool jedanTurnir = ViewBag.JedanTurnir ?? false;
 }
 
+<style>
+    body {
+        background-image: none !important;
+        background-color: white !important;
+    }
+</style>
+
 <div id="oblast-stampe">
     @if (jedanTurnir && Model.Count == 1)
     {

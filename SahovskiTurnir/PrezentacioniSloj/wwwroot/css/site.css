@@ -1,22 +1,95 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #312e2b;
+    background-image: repeating-conic-gradient(#769656 0% 25%, #eeeed2 0% 50%);
+    background-size: 500px 500px;
+}
+
+.navbar {
+    background-color: #312e2b !important;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.92);
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.card-header {
+    background-color: #5a5a4a !important;
+}
+
+.card-header.bg-secondary {
+    background-color: #5a5a4a !important;
+}
+
+.btn-dark {
+    background-color: #312e2b;
+    border-color: #312e2b;
+}
+
+.btn-dark:hover {
+    background-color: #769656;
+    border-color: #769656;
+}
+
+.btn-outline-dark {
+    color: #312e2b;
+    border-color: #312e2b;
+}
+
+.btn-outline-dark:hover {
+    background-color: #312e2b;
+    border-color: #312e2b;
+}
+
+.table-dark {
+    background-color: #5a5a4a !important;
+}
+
+.navbar-brand, .nav-link {
+    color: #eeeed2 !important;
+}
+
+.nav-link:hover {
+  color: #769656 !important;
+}
+
+.table {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.table td, .table th {
+    background-color: transparent;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(238, 238, 210, 0.5);
+}
+
+.table-striped > tbody > tr:nth-of-type(even) > * {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.table-bordered {
+    background-color: rgba(238, 238, 210, 0.5);
 }
