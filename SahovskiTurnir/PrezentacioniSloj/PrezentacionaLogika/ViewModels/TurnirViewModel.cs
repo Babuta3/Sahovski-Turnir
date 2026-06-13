@@ -17,7 +17,9 @@ namespace PrezentacioniSloj.PrezentacionaLogika.ViewModels
         public string Mesto { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Datum je obavezan.")]
+        [DataType(DataType.Date)]
         [Display(Name = "Datum")]
+        [CustomValidation(typeof(TurnirViewModel), "ValidirajDatum")]
         public DateTime Datum { get; set; } = DateTime.Today;
 
         [Required(ErrorMessage = "Organizator je obavezan.")]
@@ -65,5 +67,12 @@ namespace PrezentacioniSloj.PrezentacionaLogika.ViewModels
         public DateTime? DatumDo { get; set; }
         public string? FilterMesto { get; set; }
         public List<PlasmanIgracaViewModel> Plasmani { get; set; } = new List<PlasmanIgracaViewModel>();
+
+        public static ValidationResult? ValidirajDatum(DateTime datum, ValidationContext context)
+        {
+            if (datum > DateTime.Today)
+                return new ValidationResult("Datum turnira ne može biti u budućnosti.");
+            return ValidationResult.Success;
+        }
     }
 }

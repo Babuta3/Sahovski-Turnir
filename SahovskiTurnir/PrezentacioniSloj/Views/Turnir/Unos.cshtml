@@ -188,6 +188,13 @@
                 greske.push('Morate dodati bar jednog igrača.');
             }
 
+            var datum = new Date(document.querySelector('[name="Datum"]').value);
+            var danas = new Date();
+            danas.setHours(23,59,59,999);
+            if (datum > danas) {
+                greske.push('Datum turnira ne može biti u budućnosti.');
+            }
+
             var mesta = [];
             var plasmanPodaci = [];
 
