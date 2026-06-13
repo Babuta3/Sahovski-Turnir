@@ -1,0 +1,89 @@
+﻿@model PrezentacioniSloj.PrezentacionaLogika.ViewModels.IgracViewModel
+
+@{
+    ViewData["Title"] = "Unos igrača";
+}
+
+<h2 class="mb-4">Unos novog igrača</h2>
+
+<form asp-action="Unos" method="post" id="formIgrac">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">Podaci o igraču</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Ime" class="form-label"></label>
+                        <input asp-for="Ime" class="form-control" id="imeInput" />
+                        <span asp-validation-for="Ime" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Prezime" class="form-label"></label>
+                        <input asp-for="Prezime" class="form-control" id="prezimeInput" />
+                        <span asp-validation-for="Prezime" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Klub" class="form-label"></label>
+                        <input asp-for="Klub" class="form-control" />
+                        <span asp-validation-for="Klub" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Titula" class="form-label"></label>
+                        <select asp-for="Titula" asp-items="ViewBag.Titule" class="form-select">
+                            <option value="">-- Izaberi titulu --</option>
+                        </select>
+                        <span asp-validation-for="Titula" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="ELO" class="form-label"></label>
+                        <input asp-for="ELO" class="form-control" id="eloInput" placeholder="Opciono" />
+                        <span asp-validation-for="ELO" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="greskeForma" class="text-danger mb-3"></div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-dark">Sačuvaj</button>
+        <a asp-action="Spisak" class="btn btn-outline-secondary">Odustani</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.getElementById('formIgrac').addEventListener('submit', function (e) {
+            var greske = [];
+            var poruka = document.getElementById('greskeForma');
+            poruka.textContent = '';
+
+            var ime = document.getElementById('imeInput').value.trim();
+            var prezime = document.getElementById('prezimeInput').value.trim();
+            var elo = document.getElementById('eloInput').value.trim();
+
+            var regexIme = /^[A-Za-zÀ-ž\s\-']+$/;
+            if (ime && !regexIme.test(ime)) {
+                greske.push('Ime sme da sadrži samo slova.');
+            }
+            if (prezime && !regexIme.test(prezime)) {
+                greske.push('Prezime sme da sadrži samo slova.');
+            }
+
+            var regexElo = /^\d{3,4}$/;
+            if (elo && !regexElo.test(elo)) {
+                greske.push('ELO mora biti broj od 3 ili 4 cifre (npr. 1500).');
+            }
+
+            if (greske.length > 0) {
+                e.preventDefault();
+                poruka.innerHTML = greske.join('<br>');
+            }
+        });
+    </script>
+}
