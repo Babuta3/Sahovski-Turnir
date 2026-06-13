@@ -5,7 +5,7 @@ using SlojServisa.DTO;
 namespace SlojServisa.WebServis
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/KorisnikRest")]
     public class KorisnikRestKontroler : ControllerBase
     {
         private readonly KorisnikRepozitorijum _repozitorijum;

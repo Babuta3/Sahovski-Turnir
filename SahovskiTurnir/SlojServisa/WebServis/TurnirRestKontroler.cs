@@ -9,7 +9,7 @@ using SlojServisa.KlaseMapiranja;
 namespace SlojServisa.WebServis
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/TurnirRest")]
     public class TurnirRestKontroler : ControllerBase
     {
         private readonly TurnirRepozitorijum _repozitorijum;

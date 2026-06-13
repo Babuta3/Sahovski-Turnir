@@ -4,7 +4,7 @@ using System.Xml.Linq;
 namespace SlojServisa.WebServis
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/PravilaRest")]
     public class PravilaRestKontroler : ControllerBase
     {
         [HttpGet]

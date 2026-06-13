@@ -6,7 +6,7 @@ using SlojServisa.KlaseMapiranja;
 namespace SlojServisa.WebServis
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/IgracRest")]
     public class IgracRestKontroler : ControllerBase
     {
         private readonly IgracRepozitorijum _repozitorijum;
