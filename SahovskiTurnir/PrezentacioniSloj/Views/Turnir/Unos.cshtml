@@ -1,0 +1,228 @@
+﻿@model PrezentacioniSloj.PrezentacionaLogika.ViewModels.TurnirViewModel
+
+@{
+    ViewData["Title"] = "Unos turnira";
+}
+
+<h2 class="mb-4">Unos novog turnira</h2>
+
+<form asp-action="Unos" method="post" id="formTurnir">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">1. Podaci o turniru</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="NazivTurnira" class="form-label"></label>
+                        <input asp-for="NazivTurnira" class="form-control" />
+                        <span asp-validation-for="NazivTurnira" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Mesto" class="form-label"></label>
+                        <input asp-for="Mesto" class="form-control" />
+                        <span asp-validation-for="Mesto" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Datum" class="form-label"></label>
+                        <input asp-for="Datum" type="date" class="form-control" />
+                        <span asp-validation-for="Datum" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Organizator" class="form-label"></label>
+                        <input asp-for="Organizator" class="form-control" />
+                        <span asp-validation-for="Organizator" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="GlavniArbitar" class="form-label"></label>
+                        <input asp-for="GlavniArbitar" class="form-control" />
+                        <span asp-validation-for="GlavniArbitar" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="NagradniFond" class="form-label"></label>
+                        <input asp-for="NagradniFond" class="form-control" />
+                        <span asp-validation-for="NagradniFond" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="TipTurnira" class="form-label"></label>
+                        <select asp-for="TipTurnira" asp-items="ViewBag.Tipovi" class="form-select">
+                            <option value="">-- Izaberi tip --</option>
+                        </select>
+                        <span asp-validation-for="TipTurnira" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="FormatTakmicenja" class="form-label"></label>
+                        <select asp-for="FormatTakmicenja" asp-items="ViewBag.Formati" class="form-select">
+                            <option value="">-- Izaberi format --</option>
+                        </select>
+                        <span asp-validation-for="FormatTakmicenja" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="VremenskaKontrola" class="form-label"></label>
+                        <select asp-for="VremenskaKontrola" asp-items="ViewBag.VremenskaKontrola" class="form-select">
+                            <option value="">-- Izaberi vremensku kontrolu --</option>
+                        </select>
+                        <span asp-validation-for="VremenskaKontrola" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="TiebreakKriterijum" class="form-label"></label>
+                        <select asp-for="TiebreakKriterijum" asp-items="ViewBag.Tiebreakovi" class="form-select">
+                            <option value="">-- Izaberi tiebreak --</option>
+                        </select>
+                        <span asp-validation-for="TiebreakKriterijum" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="BrojRundi" class="form-label"></label>
+                        <input asp-for="BrojRundi" class="form-control" />
+                        <span asp-validation-for="BrojRundi" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="BrojUcesnika" class="form-label"></label>
+                        <input asp-for="BrojUcesnika" class="form-control" />
+                        <span asp-validation-for="BrojUcesnika" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">2. Konačan plasman igrača</div>
+        <div class="card-body">
+            <table class="table table-bordered" id="tabelaPlasmana">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>#</th>
+                        <th>Igrač</th>
+                        <th>Mesto</th>
+                        <th>Bodovi</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="teloPlasmana">
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-dark" id="dodajIgraca">+ Dodaj igrača</button>
+            <div id="gresakePlasmana" class="text-danger mt-2"></div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-dark" id="btnSacuvaj">Sačuvaj turnir</button>
+        <a asp-action="Spisak" class="btn btn-outline-secondary">Odustani</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        var sviIgraci = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewBag.Igraci as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ?? new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>()));
+        var brojRedova = 0;
+
+        function osveziDropdowne() {
+            var izabrani = [];
+            document.querySelectorAll('.dropdown-igrac').forEach(function (sel) {
+                if (sel.value) izabrani.push(sel.value);
+            });
+
+            document.querySelectorAll('.dropdown-igrac').forEach(function (sel) {
+                var trenutna = sel.value;
+                sel.innerHTML = '<option value="">-- Izaberi igrača --</option>';
+                sviIgraci.forEach(function (igrac) {
+                    if (!izabrani.includes(igrac.Value) || igrac.Value === trenutna) {
+                        var opt = document.createElement('option');
+                        opt.value = igrac.Value;
+                        opt.text = igrac.Text;
+                        if (igrac.Value === trenutna) opt.selected = true;
+                        sel.appendChild(opt);
+                    }
+                });
+            });
+        }
+
+        function osveziBrojeve() {
+            var redovi = document.querySelectorAll('#teloPlasmana tr');
+            redovi.forEach(function (red, i) {
+                red.querySelector('.redni-broj').textContent = i + 1;
+            });
+        }
+
+        function dodajRed() {
+            var i = brojRedova++;
+            var red = document.createElement('tr');
+            red.innerHTML =
+                '<td class="redni-broj"></td>' +
+                '<td><select name="Plasmani[' + i + '].IgracID" class="form-select form-select-sm dropdown-igrac" required>' +
+                '<option value="">-- Izaberi igrača --</option>' +
+                '</select></td>' +
+                '<td><input name="Plasmani[' + i + '].Mesto" type="number" class="form-control form-control-sm polje-mesto" min="1" required /></td>' +
+                '<td><input name="Plasmani[' + i + '].Bodovi" type="text" class="form-control form-control-sm polje-bodovi" placeholder="npr. 7 ili 7.5" required /></td>' +
+                '<td><button type="button" class="btn btn-sm btn-danger btn-obrisi">✕</button></td>';
+
+            document.getElementById('teloPlasmana').appendChild(red);
+
+            red.querySelector('.btn-obrisi').addEventListener('click', function () {
+                red.remove();
+                osveziBrojeve();
+                osveziDropdowne();
+            });
+
+            red.querySelector('.dropdown-igrac').addEventListener('change', osveziDropdowne);
+
+            osveziDropdowne();
+            osveziBrojeve();
+        }
+
+        document.getElementById('dodajIgraca').addEventListener('click', dodajRed);
+
+        document.getElementById('formTurnir').addEventListener('submit', function (e) {
+            var greske = [];
+            var poruka = document.getElementById('gresakePlasmana');
+            poruka.textContent = '';
+
+            var redovi = document.querySelectorAll('#teloPlasmana tr');
+
+            if (redovi.length === 0) {
+                greske.push('Morate dodati bar jednog igrača.');
+            }
+
+            var mesta = [];
+            var plasmanPodaci = [];
+
+            redovi.forEach(function (red) {
+                var igrac = red.querySelector('.dropdown-igrac').value;
+                var mesto = parseInt(red.querySelector('.polje-mesto').value);
+                var bodoviStr = red.querySelector('.polje-bodovi').value.trim();
+                var regexBodovi = /^\d+(\.\d)?$/;
+
+                if (!regexBodovi.test(bodoviStr)) {
+                    greske.push('Bodovi moraju biti ceo broj ili broj sa .5 (npr. 7 ili 7.5).');
+                }
+
+                var bodovi = parseFloat(bodoviStr);
+
+                if (mesta.includes(mesto)) {
+                    greske.push('Dva igrača ne mogu imati isto mesto (' + mesto + ').');
+                }
+                mesta.push(mesto);
+                plasmanPodaci.push({ mesto: mesto, bodovi: bodovi });
+            });
+
+            // Validacija konzistentnosti mesta i bodova
+            plasmanPodaci.sort(function (a, b) { return a.mesto - b.mesto; });
+            for (var j = 0; j < plasmanPodaci.length - 1; j++) {
+                if (plasmanPodaci[j].bodovi < plasmanPodaci[j + 1].bodovi) {
+                    greske.push('Igrač na višem mestu ne može imati manje bodova od igrača na nižem mestu.');
+                    break;
+                }
+            }
+
+            if (greske.length > 0) {
+                e.preventDefault();
+                poruka.innerHTML = greske.join('<br>');
+            }
+        });
+    </script>
+}
