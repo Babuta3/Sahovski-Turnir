@@ -1,0 +1,61 @@
+﻿@model SlojServisa.DTO.TurnirDTO
+
+@{
+    ViewData["Title"] = "Detalji turnira";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Detalji turnira</h2>
+    <div class="d-flex gap-2">
+        <a asp-action="Izmena" asp-route-id="@Model.TurnirID" class="btn btn-warning">Izmeni</a>
+        <a asp-action="Stampa" asp-route-id="@Model.TurnirID" class="btn btn-secondary">Štampa</a>
+        <a asp-action="Spisak" class="btn btn-outline-dark">Nazad</a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-dark text-white">1. Podaci o turniru</div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr><th>Naziv turnira</th><td>@Model.NazivTurnira</td><th>Tip</th><td>@Model.TipTurnira</td></tr>
+            <tr><th>Mesto održavanja</th><td>@Model.Mesto</td><th>Format</th><td>@Model.FormatTakmicenja</td></tr>
+            <tr><th>Datum</th><td>@Model.Datum.ToString("dd.MM.yyyy")</td><th>Broj rundi</th><td>@Model.BrojRundi</td></tr>
+            <tr><th>Organizator</th><td>@Model.Organizator</td><th>Broj učesnika</th><td>@Model.BrojUcesnika</td></tr>
+            <tr><th>Glavni arbitar</th><td>@Model.GlavniArbitar</td><th>Vremenska kontrola</th><td>@Model.VremenskaKontrola</td></tr>
+            <tr><th>Nagradni fond</th><td>@Model.NagradniFond.ToString("N2") RSD</td><th>Tiebreak</th><td>@Model.TiebreakKriterijum</td></tr>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-dark text-white">2. Konačan plasman igrača</div>
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Mesto</th>
+                    <th>Ime i prezime</th>
+                    <th>Klub</th>
+                    <th>Titula</th>
+                    <th>ELO</th>
+                    <th>Bodovi</th>
+                    <th>Nagrada (RSD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var plasman in Model.Plasmani.OrderBy(p => p.Mesto))
+                {
+                    <tr>
+                        <td>@plasman.Mesto</td>
+                        <td>@plasman.PrezimeIgraca @plasman.ImeIgraca</td>
+                        <td>@plasman.Klub</td>
+                        <td>@plasman.Titula</td>
+                        <td>@(plasman.ELO.HasValue? plasman.ELO.ToString() : "-")</td>
+                        <td>@plasman.Bodovi</td>
+                        <td>@plasman.Nagrada.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

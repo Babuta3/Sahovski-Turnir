@@ -210,7 +210,6 @@
                 plasmanPodaci.push({ mesto: mesto, bodovi: bodovi });
             });
 
-            // Validacija konzistentnosti mesta i bodova
             plasmanPodaci.sort(function (a, b) { return a.mesto - b.mesto; });
             for (var j = 0; j < plasmanPodaci.length - 1; j++) {
                 if (plasmanPodaci[j].bodovi < plasmanPodaci[j + 1].bodovi) {
