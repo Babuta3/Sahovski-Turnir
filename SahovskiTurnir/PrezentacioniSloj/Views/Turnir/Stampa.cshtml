@@ -1,0 +1,156 @@
+﻿@model List<SlojServisa.DTO.TurnirDTO>
+
+@{
+    ViewData["Title"] = "Štampa";
+    bool jedanTurnir = ViewBag.JedanTurnir ?? false;
+}
+
+<div id="oblast-stampe">
+    @if (jedanTurnir && Model.Count == 1)
+    {
+        var t = Model.First();
+        <div class="p-4">
+            <h5 class="fw-bold text-uppercase text-center">Zapisnik o odigranom šahovskom turniru</h5>
+            <hr />
+
+            <h6 class="fw-bold text-uppercase mt-3">1. Podaci o turniru</h6>
+            <table class="table table-bordered mb-0">
+                <tr>
+                    <td class="fw-bold p-1" style="width:200px">Naziv turnira:</td>
+                    <td class="p-1">@t.NazivTurnira</td>
+                    <td class="fw-bold p-1" style="width:150px">Tip:</td>
+                    <td class="p-1">@t.TipTurnira</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold p-1">Mesto održavanja:</td>
+                    <td class="p-1">@t.Mesto</td>
+                    <td class="fw-bold p-1">Datum:</td>
+                    <td class="p-1">@t.Datum.ToString("dd.MM.yyyy")</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold p-1">Organizator:</td>
+                    <td class="p-1">@t.Organizator</td>
+                    <td class="fw-bold p-1">Br. rundi:</td>
+                    <td class="p-1">@t.BrojRundi</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold p-1">Glavni arbitar:</td>
+                    <td class="p-1">@t.GlavniArbitar</td>
+                    <td class="fw-bold p-1">Format:</td>
+                    <td class="p-1">@t.FormatTakmicenja</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold p-1">Nagradni fond (RSD):</td>
+                    <td class="p-1">@t.NagradniFond.ToString("N2")</td>
+                    <td class="fw-bold p-1">Br. učesnika:</td>
+                    <td class="p-1">@t.BrojUcesnika</td>
+                </tr>
+            </table>
+
+            <hr />
+            <h6 class="fw-bold text-uppercase mt-3">2. Konačan plasman igrača</h6>
+            <table class="table table-bordered mt-2">
+                <thead>
+                    <tr>
+                        <th>Mesto</th>
+                        <th>Ime i prezime</th>
+                        <th>Klub</th>
+                        <th>Titula</th>
+                        <th>ELO</th>
+                        <th>Bodovi</th>
+                        <th>Nagrada (RSD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in t.Plasmani.OrderBy(p => p.Mesto))
+                    {
+                        <tr>
+                            <td>@p.Mesto</td>
+                            <td>@p.PrezimeIgraca @p.ImeIgraca</td>
+                            <td>@p.Klub</td>
+                            <td>@p.Titula</td>
+                            <td>@(p.ELO.HasValue? p.ELO.ToString() : "-")</td>
+                            <td>@p.Bodovi</td>
+                            <td>@p.Nagrada.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p class="fst-italic">
+                <small>*Nagradni fond se raspodeljuje proporcionalno prema plasmanskom koeficijentu.</small>
+            </p>
+
+            <hr />
+            <h6 class="fw-bold text-uppercase mt-3">3. Tehničke informacije</h6>
+            <table class="table table-bordered mb-0">
+                <tr>
+                    <td class="fw-bold p-1" style="width:200px">Vremenska kontrola:</td>
+                    <td class="p-1">@t.VremenskaKontrola</td>
+                </tr>
+                <tr>
+                    <td class="fw-bold p-1">Tiebreak kriterijum:</td>
+                    <td class="p-1">@t.TiebreakKriterijum</td>
+                </tr>
+            </table>
+
+            <hr />
+            <h6 class="fw-bold text-uppercase mt-3">4. Potpisi</h6>
+            <table class="table table-bordered mb-0">
+                <tr>
+                    <td class="p-3" style="width:50%">
+                        <strong>Glavni arbitar:</strong><br />
+                        @t.GlavniArbitar<br /><br />
+                        ______________________________<br />
+                        <small>Ime i prezime / Potpis</small>
+                    </td>
+                    <td class="p-3">
+                        <strong>Organizator:</strong><br />
+                        @t.Organizator<br /><br />
+                        ______________________________<br />
+                        <small>Ime i prezime / Potpis</small>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+    else
+    {
+        <h3 class="mb-4 text-center">Spisak turnira</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Naziv turnira</th>
+                    <th>Mesto</th>
+                    <th>Datum</th>
+                    <th>Organizator</th>
+                    <th>Nagradni fond</th>
+                    <th>Br. učesnika</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int rbr = 1;
+                }
+                @foreach (var t in Model)
+                {
+                    <tr>
+                        <td>@rbr</td>
+                        <td>@t.NazivTurnira</td>
+                        <td>@t.Mesto</td>
+                        <td>@t.Datum.ToString("dd.MM.yyyy")</td>
+                        <td>@t.Organizator</td>
+                        <td>@t.NagradniFond.ToString("N2") RSD</td>
+                        <td>@t.BrojUcesnika</td>
+                    </tr>
+                    rbr++;
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div class="d-flex gap-2 mt-3 d-print-none">
+    <button onclick="window.print()" class="btn btn-dark">Štampaj</button>
+    <a asp-action="Spisak" class="btn btn-outline-secondary">Nazad</a>
+</div>
