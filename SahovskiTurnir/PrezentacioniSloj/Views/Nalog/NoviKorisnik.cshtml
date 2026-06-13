@@ -1,0 +1,67 @@
+﻿@model PrezentacioniSloj.PrezentacionaLogika.ViewModels.RegistracijaViewModel
+
+@{
+    ViewData["Title"] = "Novi korisnik";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Novi korisnik</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="NoviKorisnik" method="post" id="formRegistracija">
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                    <div class="mb-3">
+                        <label asp-for="KorisnickoIme" class="form-label"></label>
+                        <input asp-for="KorisnickoIme" class="form-control" />
+                        <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Lozinka" class="form-label"></label>
+                        <input asp-for="Lozinka" class="form-control" id="lozinkaInput" />
+                        <span asp-validation-for="Lozinka" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="PotvrdaLozinke" class="form-label"></label>
+                        <input asp-for="PotvrdaLozinke" class="form-control" id="potvrdaInput" />
+                        <span asp-validation-for="PotvrdaLozinke" class="text-danger"></span>
+                    </div>
+                    <div id="greskeForma" class="text-danger mb-3"></div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-dark w-100">Kreiraj korisnika</button>
+                        <a asp-action="Spisak" asp-controller="Turnir" class="btn btn-outline-secondary w-100">Odustani</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('formRegistracija').addEventListener('submit', function (e) {
+            var greske = [];
+            var poruka = document.getElementById('greskeForma');
+            poruka.textContent = '';
+
+            var lozinka = document.getElementById('lozinkaInput').value;
+            var potvrda = document.getElementById('potvrdaInput').value;
+
+            var regexLozinka = /^.{6,}$/;
+            if (!regexLozinka.test(lozinka)) {
+                greske.push('Lozinka mora imati najmanje 6 karaktera.');
+            }
+
+            if (lozinka !== potvrda) {
+                greske.push('Lozinke se ne poklapaju.');
+            }
+
+            if (greske.length > 0) {
+                e.preventDefault();
+                poruka.innerHTML = greske.join('<br>');
+            }
+        });
+    </script>
+}

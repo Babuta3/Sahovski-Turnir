@@ -51,6 +51,45 @@ namespace PrezentacioniSloj.PrezentacionaLogika.Controllers
             return RedirectToAction("Spisak", "Turnir");
         }
 
+        [HttpGet]
+        public IActionResult NoviKorisnik()
+        {
+            if (HttpContext.Session.GetString("KorisnickoIme") == null)
+                return RedirectToAction("Prijava");
+
+            return View(new RegistracijaViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NoviKorisnik(RegistracijaViewModel model)
+        {
+            if (HttpContext.Session.GetString("KorisnickoIme") == null)
+                return RedirectToAction("Prijava");
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var dto = new PrijavaDTO
+            {
+                KorisnickoIme = model.KorisnickoIme,
+                Lozinka = model.Lozinka
+            };
+
+            var klijent = KreirajKlijenta();
+            var json = JsonSerializer.Serialize(dto);
+            var sadrzaj = new StringContent(json, Encoding.UTF8, "application/json");
+            var odgovor = await klijent.PostAsync("api/KorisnikRest/registracija", sadrzaj);
+
+            if (!odgovor.IsSuccessStatusCode)
+            {
+                var greska = await odgovor.Content.ReadAsStringAsync();
+                ModelState.AddModelError("", greska);
+                return View(model);
+            }
+
+            return RedirectToAction("Spisak", "Turnir");
+        }
+
         public IActionResult Odjava()
         {
             HttpContext.Session.Clear();

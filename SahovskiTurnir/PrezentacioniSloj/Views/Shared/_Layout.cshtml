@@ -17,6 +17,7 @@
                     <a class="nav-link" asp-controller="Turnir" asp-action="Spisak">Turniri</a>
                     <a class="nav-link" asp-controller="Igrac" asp-action="Spisak">Igrači</a>
                     <span class="nav-link text-light">@Context.Session.GetString("KorisnickoIme")</span>
+                    <a class="nav-link" asp-controller="Nalog" asp-action="NoviKorisnik">Novi korisnik</a>
                     <a class="nav-link" asp-controller="Nalog" asp-action="Odjava">Odjava</a>
                 }
             </div>

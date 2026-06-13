@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SlojPodataka.KlasePodataka;
 using SlojPodataka.TehnoloskeKlase;
 using SlojServisa.DTO;
 
@@ -27,6 +28,22 @@ namespace SlojServisa.WebServis
                 return Unauthorized("Lozinka nije ispravna.");
 
             return Ok("Prijava uspešna.");
+        }
+
+        [HttpPost("registracija")]
+        public ActionResult Registracija([FromBody] PrijavaDTO dto)
+        {
+            if (_repozitorijum.PostojiKorisnik(dto.KorisnickoIme))
+                return BadRequest("Korisničko ime već postoji.");
+
+            var korisnik = new Korisnik
+            {
+                KorisnickoIme = dto.KorisnickoIme,
+                LozinkaHash = FunkcijeLozinke.Hashuj(dto.Lozinka)
+            };
+
+            _repozitorijum.Dodaj(korisnik);
+            return Ok("Korisnik je uspešno kreiran.");
         }
     }
 }
