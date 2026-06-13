@@ -1,0 +1,42 @@
+﻿@model List<SlojServisa.DTO.IgracDTO>
+
+@{
+    ViewData["Title"] = "Igrači";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Igrači</h2>
+    <a asp-action="Unos" class="btn btn-dark">+ Novi igrač</a>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Ime i prezime</th>
+            <th>Klub</th>
+            <th>Titula</th>
+            <th>ELO</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var igrac in Model)
+        {
+            <tr>
+                <td>@igrac.Prezime @igrac.Ime</td>
+                <td>@igrac.Klub</td>
+                <td>@igrac.Titula</td>
+                <td>@(igrac.ELO.HasValue? igrac.ELO.ToString() : "-")</td>
+                <td>
+                    <a asp-action="Izmena" asp-route-id="@igrac.IgracID" class="btn btn-sm btn-warning">Izmeni</a>
+                    <form asp-action="Obrisi" asp-route-id="@igrac.IgracID" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Da li ste sigurni da želite da obrišete igrača?')">
+                            Obriši
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
