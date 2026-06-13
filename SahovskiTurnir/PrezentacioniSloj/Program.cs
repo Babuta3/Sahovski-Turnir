@@ -7,12 +7,12 @@ builder.Services.AddSession();
 
 builder.Services.AddHttpClient("SahovskiApi", klijent =>
 {
-    klijent.BaseAddress = new Uri("http://localhost:5072");
+    klijent.BaseAddress = new Uri(builder.Configuration["ServisUrl"]!);
 });
 
 builder.Services.AddHttpClient<CitacPravila>(klijent =>
 {
-    klijent.BaseAddress = new Uri("http://localhost:5072");
+    klijent.BaseAddress = new Uri(builder.Configuration["ServisUrl"]!);
 });
 
 var app = builder.Build();
