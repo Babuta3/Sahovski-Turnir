@@ -11,15 +11,32 @@ namespace SlojPodataka.TehnoloskeKlase
     {
         public static string Hashuj(string lozinka)
         {
-            using var sha256 = SHA256.Create();
+            byte[] salt = new byte[16];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(salt);
+
             var bajtovi = Encoding.UTF8.GetBytes(lozinka);
-            var hash = sha256.ComputeHash(bajtovi);
-            return Convert.ToBase64String(hash);
+            var kombinovano = salt.Concat(bajtovi).ToArray();
+
+            using var sha256 = SHA256.Create();
+            var hash = sha256.ComputeHash(kombinovano);
+
+            return Convert.ToBase64String(salt) + ":" + Convert.ToBase64String(hash);
         }
 
-        public static bool Proveri(string lozinka, string hash)
+        public static bool Proveri(string lozinka, string sacuvaniHash)
         {
-            return Hashuj(lozinka) == hash;
+            var delovi = sacuvaniHash.Split(':');
+            var salt = Convert.FromBase64String(delovi[0]);
+            var originalniHash = delovi[1];
+
+            var bajtovi = Encoding.UTF8.GetBytes(lozinka);
+            var kombinovano = salt.Concat(bajtovi).ToArray();
+
+            using var sha256 = SHA256.Create();
+            var hash = Convert.ToBase64String(sha256.ComputeHash(kombinovano));
+
+            return hash == originalniHash;
         }
     }
 }
