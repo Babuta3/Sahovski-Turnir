@@ -1,0 +1,16 @@
+USE SahovskiTurnirDB;
+GO
+
+CREATE PROCEDURE sp_DajUkupanBrojTurnira
+AS
+BEGIN
+    SELECT COUNT(*) FROM Turnir
+END
+GO
+
+CREATE PROCEDURE sp_DajUkupanBrojIgraca
+AS
+BEGIN
+    SELECT COUNT(*) FROM Igrac
+END
+GO

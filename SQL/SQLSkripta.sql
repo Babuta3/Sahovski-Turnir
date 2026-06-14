@@ -1,0 +1,49 @@
+CREATE DATABASE SahovskiTurnirDB;
+GO
+
+USE SahovskiTurnirDB;
+GO
+
+CREATE TABLE Korisnik (
+    KorisnikID INT PRIMARY KEY IDENTITY,
+    KorisnickoIme NVARCHAR(50) NOT NULL UNIQUE,
+    LozinkaHash NVARCHAR(256) NOT NULL,
+    DatumKreiranja DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+CREATE TABLE Igrac (
+    IgracID INT PRIMARY KEY IDENTITY,
+    Ime NVARCHAR(50) NOT NULL,
+    Prezime NVARCHAR(50) NOT NULL,
+    Klub NVARCHAR(100) NULL DEFAULT 'Bez kluba',
+    Titula NVARCHAR(10) NOT NULL DEFAULT 'Bez titule',
+    ELO INT NULL,
+    DatumKreiranja DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+CREATE TABLE Turnir (
+    TurnirID INT PRIMARY KEY IDENTITY,
+    NazivTurnira NVARCHAR(100) NOT NULL,
+    Mesto NVARCHAR(100) NOT NULL,
+    Datum DATE NOT NULL,
+    Organizator NVARCHAR(100) NOT NULL,
+    GlavniArbitar NVARCHAR(100) NOT NULL,
+    NagradniFond DECIMAL(10,2) NOT NULL,
+    TipTurnira NVARCHAR(50) NOT NULL,
+    FormatTakmicenja NVARCHAR(50) NOT NULL,
+    BrojRundi INT NOT NULL,
+    BrojUcesnika INT NOT NULL,
+    VremenskaKontrola NVARCHAR(50) NOT NULL,
+    TiebreakKriterijum NVARCHAR(50) NOT NULL,
+    DatumKreiranja DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+CREATE TABLE PlasmanIgraca (
+    PlasmanID INT PRIMARY KEY IDENTITY,
+    TurnirID INT NOT NULL FOREIGN KEY REFERENCES Turnir(TurnirID),
+    IgracID INT NOT NULL FOREIGN KEY REFERENCES Igrac(IgracID),
+    Mesto INT NOT NULL,
+    Bodovi DECIMAL(4,1) NOT NULL,
+    Nagrada DECIMAL(10,2) NOT NULL DEFAULT 0,
+    DatumKreiranja DATETIME NOT NULL DEFAULT GETDATE()
+);
