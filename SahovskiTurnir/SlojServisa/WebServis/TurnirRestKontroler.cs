@@ -62,6 +62,8 @@ namespace SlojServisa.WebServis
         public async Task<ActionResult> Dodaj([FromBody] TurnirDTO dto)
         {
             var turnir = _maper.UEntitet(dto);
+            if (dto.Plasmani.Count > dto.BrojUcesnika)
+                return BadRequest("Broj igrača u plasmanu ne može biti veći od ukupnog broja učesnika.");
             turnir.Plasmani = await _validator.IzracunajNagrade(
                 turnir.Plasmani.ToList(), dto.NagradniFond);
             _repozitorijum.Dodaj(turnir);
@@ -73,6 +75,8 @@ namespace SlojServisa.WebServis
         {
             dto.TurnirID = id;
             var turnir = _maper.UEntitet(dto);
+            if (dto.Plasmani.Count > dto.BrojUcesnika)
+                return BadRequest("Broj igrača u plasmanu ne može biti veći od ukupnog broja učesnika.");
             turnir.Plasmani = await _validator.IzracunajNagrade(
                 turnir.Plasmani.ToList(), dto.NagradniFond);
             _repozitorijum.Izmeni(turnir);

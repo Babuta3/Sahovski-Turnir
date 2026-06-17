@@ -93,3 +93,12 @@ body {
 .table-bordered {
     background-color: rgba(238, 238, 210, 0.5);
 }
+
+@media print {
+    .navbar {
+        display: none !important;
+    }
+    .d-print-none {
+        display: none !important;
+    }
+}
