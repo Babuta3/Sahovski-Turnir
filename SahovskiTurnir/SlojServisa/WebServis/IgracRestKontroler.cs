@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SlojPodataka.Repozitorijumi;
 using SlojPodataka.TehnoloskeKlase;
 using SlojServisa.DTO;
 using SlojServisa.KlaseMapiranja;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SlojPodataka.KlasePodataka;
+using SlojPodataka.Repozitorijumi;
 using SlojPodataka.TehnoloskeKlase;
 using SlojServisa.DTO;
 

@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SlojPodataka.KlasePodataka;
+using SlojPodataka.TehnoloskeKlase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SlojPodataka.TehnoloskeKlase
+namespace SlojPodataka.Repozitorijumi
 {
     public class TurnirRepozitorijum
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SlojPodataka.TehnoloskeKlase;
+using SlojPodataka.Repozitorijumi;
 using SlojPoslovneLogike.Ogranicenja;
 using SlojPoslovneLogike.Stanje;
 using SlojPoslovneLogike.Validacija;
